@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Othisi — Psychologue du travail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet"/>
+<style>
+/* ════════════════════════════════════════════════════
+   TOKENS — charte graphique stricte
+════════════════════════════════════════════════════ */
+:root{
+  --orange:  #F9A67D;
+  --orange-d:#D4714A;   /* nuance plus soutenue de l'orange, pour le texte/liens */
+  --cream:   #FFFDE6;
+  --peach:   #FCEEDC;   /* teinte très claire de l'orange, blocs doux */
+  --brown:   #3A1900;
+  --brown-soft: rgba(58,25,0,.58);
+  --line: rgba(58,25,0,.16);
+
+  --fd:'DM Serif Display',Georgia,serif;
+  --fb:'DM Sans','Helvetica Neue',sans-serif;
+
+  --arch-l: clamp(150px,18vw,210px);
+  --arch-s: clamp(64px,8vw,92px);
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--fb);
+  color:var(--brown);
+  background:var(--cream);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit}
+ul{list-style:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 2.6rem}
+
+/* ── eyebrow / label ─────────────────────────────── */
+.eyebrow{
+  display:flex;align-items:center;gap:.55rem;
+  font-size:.7rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--orange-d);margin-bottom:1.1rem;
+}
+.eyebrow svg{width:13px;height:13px;flex-shrink:0}
+.center{text-align:center;align-items:center;justify-content:center}
+
+/* ── icône signature : rayons + horizon ──────────── */
+.sunicon line,.sunicon path{stroke-linecap:round}
+
+.divider{display:flex;justify-content:center;padding:3.6rem 0 0}
+.divider svg{width:34px;height:24px}
+
+/* ── boutons ──────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-family:var(--fb);font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  padding:.85rem 1.7rem;border-radius:100px;
+  text-decoration:none;cursor:pointer;border:1.4px solid var(--brown);
+  background:transparent;color:var(--brown);
+  transition:background .2s,color .2s;
+}
+.btn:hover{background:var(--brown);color:var(--cream)}
+.btn.solid{background:var(--brown);color:var(--cream)}
+.btn.solid:hover{background:var(--orange-d);border-color:var(--orange-d)}
+.btn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2}
+.btn-link{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--orange-d);text-decoration:none;
+  border-bottom:1.4px solid var(--orange-d);padding-bottom:.15rem;
+}
+
+/* ════════════════════════════════════════════════════
+   NAV
+════════════════════════════════════════════════════ */
+nav{
+  position:sticky;top:0;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.7rem 2.6rem;
+  background:rgba(255,253,230,.92);
+  backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line);
+}
+.nav-logo{display:flex;align-items:center;text-decoration:none}
+.nav-logo img{height:100px;width:auto;object-fit:contain;}
+
+.nav-links{display:flex;align-items:center;gap:.2rem}
+.nav-links a{
+  font-size:.76rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--brown);text-decoration:none;
+  padding:.55rem 1.05rem;border-radius:100px;
+  transition:opacity .18s,background .18s,color .18s;
+  opacity:.78;
+}
+.nav-links a:hover{opacity:1}
+.nav-links a.active{opacity:1;text-decoration:underline;text-underline-offset:5px;text-decoration-thickness:1.4px}
+.nav-links a.cta{
+  opacity:1;background:var(--brown);color:var(--cream);
+  margin-left:.6rem;font-weight:600;
+}
+.nav-links a.cta:hover{background:var(--orange-d)}
+
+/* ════════════════════════════════════════════════════
+   PAGES
+════════════════════════════════════════════════════ */
+.page{display:none}
+.page.active{display:block}
+
+/* ════════════════════════════════════════════════════
+   HERO
+════════════════════════════════════════════════════ */
+.hero{
+  max-width:1180px;margin:0 auto;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+  gap:2rem;padding:4.6rem 2.6rem 5.5rem;
+}
+.hero-title{
+  font-family:var(--fd);font-style:italic;font-weight:400;
+  font-size:clamp(2.6rem,5vw,4rem);line-height:1.06;
+  color:var(--brown);margin-bottom:1.4rem;
+}
+.hero-title .accent{color:var(--orange-d)}
+.hero-sub{
+  font-size:1.02rem;font-weight:300;line-height:1.8;color:var(--brown);opacity:.85;
+  max-width:420px;margin:0 auto 2.2rem;
+}
+
+/* ════════════════════════════════════════════════════
+   À PROPOS
+════════════════════════════════════════════════════ */
+.about{padding:5.5rem 0 1rem;background:var(--peach)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-title{
+  font-family:var(--fd);font-style:italic;font-weight:400;
+  font-size:clamp(2rem,3.6vw,2.7rem);line-height:1.1;color:var(--brown);
+  margin-bottom:1.3rem;
+}
+.about-body{font-size:.98rem;line-height:1.9;font-weight:300;color:var(--brown);opacity:.88;max-width:480px}
+.grec-pill{
+  display:inline-flex;align-items:center;gap:.5rem;margin-top:1.7rem;
+  font-family:var(--fd);font-style:italic;font-size:1.18rem;color:var(--orange-d);
+  border:1.4px solid var(--orange-d);border-radius:100px;padding:.5rem 1.3rem;
+}
+
+/* portrait rond + blob (à propos) */
+.about-portrait-wrapper {
+  position:relative; width:240px; height:240px; margin:0 auto; display:flex; justify-content:center;
+}
+.about-blob {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  background:var(--cream); border:1.4px solid var(--brown);
+  border-radius:60% 40% 50% 50% / 50% 60% 40% 50%;
+  transform:scale(1.15) rotate(12deg); z-index:0;
+}
+.about-circle {
+  position:relative; z-index:1;
+  width:100%; height:100%; border-radius:50%; overflow:hidden;
+  border:2px solid var(--brown);
+}
+/* Centrage parfait du visage (image décalée pour placer le visage au milieu) */
+.about-circle img{width:100%;height:100%;object-fit:cover;object-position:25% center;}
+
+/* bandeau stats — façon "promesse" */
+.promise{padding:5rem 0 5.5rem;background:var(--cream)}
+.promise-row{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;margin-top:2.6rem}
+.promise-card{
+  border-top:1.4px solid var(--line);padding-top:1.5rem;text-align:left;
+}
+.promise-label{
+  font-size:.68rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--orange-d);margin-bottom:.6rem;
+}
+.promise-value{font-family:var(--fd);font-style:italic;font-size:1.18rem;line-height:1.35;color:var(--brown)}
+
+/* ════════════════════════════════════════════════════
+   HEADER générique
+════════════════════════════════════════════════════ */
+.page-header{padding:4.4rem 0 1rem;text-align:center}
+.page-h-title{
+  font-family:var(--fd);font-style:italic;font-weight:400;
+  font-size:clamp(2rem,3.8vw,2.9rem);line-height:1.12;color:var(--brown);
+  max-width:640px;margin:0 auto;
+}
+.page-h-sub{
+  font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--brown-soft);margin-top:1.1rem;
+}
+
+/* ════════════════════════════════════════════════════
+   ACCOMPAGNEMENTS — blocs alternés façon magazine
+════════════════════════════════════════════════════ */
+.accomp-row{padding:4.4rem 0}
+.accomp-row.tint{background:var(--peach)}
+.accomp-row-in{display:grid;grid-template-columns:.42fr .58fr;gap:3.4rem;align-items:center}
+.accomp-row-in.rev{grid-template-columns:.58fr .42fr}
+.accomp-row-in.rev .accomp-visual{order:2}
+.accomp-row-in.rev .accomp-content{order:1}
+
+.accomp-visual{display:flex;justify-content:center}
+.accomp-arch{
+  position:relative;width:70%;max-width:180px;aspect-ratio:1/1;
+  display:flex;align-items:center;justify-content:center;
+  background:transparent;border:none;
+}
+/* Cercle intérieur (la 1ère ligne) */
+.accomp-arch::after{
+  content:'';position:absolute;inset:0;z-index:1;
+  border-radius:50%;
+  border:1.4px solid var(--brown);
+  background:var(--peach); /* Couleur de fond par défaut */
+}
+.accomp-row.tint .accomp-arch::after{
+  background:var(--cream);
+}
+/* Blob extérieur (la 2ème ligne) */
+.accomp-arch::before{
+  content:'';position:absolute;inset:0;z-index:0;
+  border:1.4px solid var(--brown);
+  border-radius:60% 40% 50% 50% / 50% 60% 40% 50%;
+  transform:scale(1.15) rotate(12deg);
+  background:var(--cream); /* Couleur de fond par défaut */
+}
+.accomp-row.tint .accomp-arch::before{
+  background:var(--peach);
+}
+
+.accomp-arch svg{
+  position:relative;z-index:2;
+  width:42%;height:42%;stroke:var(--orange-d);stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round;
+}
+
+.accomp-num{
+  font-size:.7rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--orange-d);display:block;margin-bottom:.9rem;
+}
+.accomp-title-card{
+  font-family:var(--fd);font-style:italic;font-weight:400;
+  font-size:clamp(1.7rem,2.8vw,2.2rem);line-height:1.1;margin-bottom:.7rem;
+}
+.accomp-note{font-size:.84rem;font-style:italic;color:var(--brown-soft);margin-bottom:1.1rem}
+.accomp-intro{font-size:.96rem;font-weight:300;line-height:1.85;opacity:.88;margin-bottom:1.3rem;max-width:420px}
+.accomp-sub{
+  font-size:.7rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--orange-d);margin-bottom:1.1rem;
+}
+
+.liste{display:flex;flex-direction:column;gap:.95rem;max-width:460px}
+.liste.cols-2{display:grid;grid-template-columns:1fr 1fr;gap:.95rem 1.8rem;max-width:none}
+.liste li{
+  display:flex;align-items:flex-start;gap:.7rem;
+  font-size:.94rem;line-height:1.6;font-weight:300;
+  border-top:1px solid var(--line);padding-top:.8rem;
+}
+.liste li svg{width:13px;height:13px;flex-shrink:0;margin-top:.3rem;stroke:var(--orange-d);stroke-width:2}
+
+/* ════════════════════════════════════════════════════
+   CONTACT
+════════════════════════════════════════════════════ */
+.contact-block{padding:4.6rem 0 6rem;text-align:center}
+.contact-visual{position:relative;width:220px;height:220px;margin:1.5rem auto 2.6rem}
+.contact-arch-bg{
+  position:absolute;inset:0;background:var(--peach);
+  border-radius:50%;
+}
+.contact-rays{position:absolute;inset:0}
+
+.contact-items{
+  display:flex;flex-direction:column;gap:0;max-width:420px;margin:0 auto;
+}
+.contact-item{
+  display:flex;align-items:center;gap:1.1rem;
+  padding:1.15rem .2rem;border-top:1.4px solid var(--line);
+  text-decoration:none;color:var(--brown);text-align:left;
+  transition:opacity .18s;
+}
+.contact-items a:last-child{border-bottom:1.4px solid var(--line)}
+.contact-item:hover{opacity:.7}
+.contact-icon{
+  width:42px;height:42px;border-radius:50%;border:1.4px solid var(--brown);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.contact-icon svg{width:17px;height:17px;fill:var(--brown)}
+.ci-label{font-size:.66rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--brown-soft);margin-bottom:.15rem}
+.ci-value{font-size:1rem;font-weight:500}
+
+/* ════════════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════════════ */
+footer{
+  border-top:1.4px solid var(--line);background:var(--peach);
+  padding:2.2rem 2.6rem;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.9rem;
+  font-size:.72rem;font-weight:400;color:var(--brown-soft);
+}
+
+/* ════════════════════════════════════════════════════
+   REVEAL
+════════════════════════════════════════════════════ */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.fu{opacity:0}
+.fu.go{animation:fadeUp .65s ease both}
+
+/* ════════════════════════════════════════════════════
+   RESPONSIVE
+════════════════════════════════════════════════════ */
+@media(max-width:860px){
+  .wrap{padding:0 1.4rem}
+  nav{padding:.6rem 1.3rem}
+  .nav-logo img{height:90px}
+  .nav-links a{font-size:.66rem;padding:.42rem .6rem}
+  .hero{padding:2.8rem 1.4rem 3.2rem;gap:2.6rem}
+  .about-grid{grid-template-columns:1fr;gap:2.2rem;text-align:center}
+  .about-body{margin-left:auto;margin-right:auto}
+  .about-portrait-wrapper{order:-1}
+  .promise-row{grid-template-columns:1fr;gap:1.4rem}
+  .accomp-row-in,.accomp-row-in.rev{grid-template-columns:1fr;gap:1.8rem;text-align:center}
+  .accomp-row-in.rev .accomp-visual,.accomp-row-in.rev .accomp-content{order:0}
+  .accomp-intro{margin-left:auto;margin-right:auto}
+  .liste.cols-2{grid-template-columns:1fr}
+  .liste li{text-align:left}
+  footer{flex-direction:column;text-align:center;justify-content:center}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────── -->
+<nav>
+  <a href="#" class="nav-logo" onclick="showPage('accueil');return false">
+    <img src="fond_creme_et_phrase.png" alt="Othisi"/>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#" class="active" id="nav-accueil" onclick="showPage('accueil');return false">Accueil</a></li>
+    <li><a href="#" id="nav-accompagnements" onclick="showPage('accompagnements');return false">Les accompagnements</a></li>
+    <li><a href="#" class="cta" id="nav-contact" onclick="showPage('contact');return false">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 1 · ACCUEIL
+══════════════════════════════════════════════════ -->
+<div class="page active" id="page-accueil">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-text fu">
+      <span class="eyebrow center" style="justify-content:center">
+        <svg class="sunicon" viewBox="0 0 20 20" fill="none" stroke="#D4714A" stroke-width="1.8"><line x1="10" y1="2" x2="10" y2="7"/><line x1="4.5" y1="4.5" x2="7.5" y2="8"/><line x1="15.5" y1="4.5" x2="12.5" y2="8"/><line x1="2" y1="11" x2="18" y2="11"/></svg>
+        Clémence Beaucousin, Psychologue du travail · N°RPPS 810110520151
+      </span>
+      <h1 class="hero-title">Un coup<br/>de <span class="accent">pouce</span><br/>pour avancer.</h1>
+      <p class="hero-sub">Accompagnement des parcours scolaires et professionnels, en présentiel à Saint-Malo ou en visio dans toute la France.</p>
+      <a href="#" class="btn solid" onclick="showPage('accompagnements');return false">
+        Découvrir les accompagnements
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 40 28" fill="none" stroke="#F9A67D" stroke-width="1.6">
+      <line x1="20" y1="2" x2="20" y2="9"/><line x1="9" y1="6" x2="15" y2="13"/><line x1="31" y1="6" x2="25" y2="13"/><line x1="2" y1="20" x2="38" y2="20"/>
+    </svg>
+  </div>
+
+  <!-- À PROPOS -->
+  <section class="about">
+    <div class="wrap">
+      <div class="about-grid">
+        <div class="fu">
+          <span class="eyebrow">
+            <svg class="sunicon" viewBox="0 0 20 20" fill="none" stroke="#D4714A" stroke-width="1.8"><line x1="10" y1="2" x2="10" y2="7"/><line x1="4.5" y1="4.5" x2="7.5" y2="8"/><line x1="15.5" y1="4.5" x2="12.5" y2="8"/><line x1="2" y1="11" x2="18" y2="11"/></svg>
+            À propos
+          </span>
+          <h2 class="about-title">Othisi,<br/>c'est quoi&nbsp;?</h2>
+          <p class="about-body">
+            Nombreuses sont les personnes qui traversent des périodes de doute, de fatigue ou de questionnement face à leur orientation, les études ou leur travail. Mon objectif, avec vous, c'est de développer ces sujets avec une approche à la fois humaniste, bienveillante et structurante.
+          </p>
+          <span class="grec-pill">✦ Othisi veut dire coup de pouce en grec !</span>
+        </div>
+
+        <div class="fu about-portrait-wrapper">
+          <div class="about-blob"></div>
+          <div class="about-circle">
+            <img src="photo_clem.jpg" alt="Clémence, psychologue du travail"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMESSE / STATS -->
+  <section class="promise">
+    <div class="wrap">
+      <div class="eyebrow center fu" style="justify-content:center">
+        <svg class="sunicon" viewBox="0 0 20 20" fill="none" stroke="#D4714A" stroke-width="1.8"><line x1="10" y1="2" x2="10" y2="7"/><line x1="4.5" y1="4.5" x2="7.5" y2="8"/><line x1="15.5" y1="4.5" x2="12.5" y2="8"/><line x1="2" y1="11" x2="18" y2="11"/></svg>
+        Othisi en quelques repères
+      </div>
+      <div class="promise-row fu">
+        <div class="promise-card">
+          <p class="promise-label">Formation</p>
+          <p class="promise-value">Master Psychologie Sociale, du Travail &amp; des Organisations — UCO Angers</p>
+        </div>
+        <div class="promise-card">
+          <p class="promise-label">Spécialisation</p>
+          <p class="promise-value">Accompagnement &amp; Conseil en Carrières et Formations</p>
+        </div>
+        <div class="promise-card">
+          <p class="promise-label">Modalités</p>
+          <p class="promise-value">Présentiel · Saint-Malo<br/>Visio · France entière</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-accueil -->
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 2 · LES ACCOMPAGNEMENTS
+══════════════════════════════════════════════════ -->
+<div class="page" id="page-accompagnements">
+
+  <header class="wrap page-header fu">
+    <h2 class="page-h-title">Comment nous pouvons travailler ensemble</h2>
+    <p class="page-h-sub">Entretiens présentiel ou visio</p>
+  </header>
+
+  <!-- 01 — Étudiants -->
+  <section class="accomp-row">
+    <div class="wrap">
+      <div class="accomp-row-in fu">
+        <div class="accomp-visual">
+          <div class="accomp-arch">
+            <!-- Pictogramme : Chapeau étudiant -->
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3l-9 5 9 5 9-5-9-5z" />
+              <path d="M12 8v8" />
+              <path d="M6 12v4c0 2 6 2 6 2s6 0 6-2v-4" />
+            </svg>
+          </div>
+        </div>
+        <div class="accomp-content">
+          <span class="accomp-num">01 — Étudiants</span>
+          <h3 class="accomp-title-card">Parcours scolaire</h3>
+          <p class="accomp-note">À partir de la première au lycée</p>
+          <p class="accomp-intro">Accompagner les étudiants dans leur rapport aux études via 3 axes&nbsp;:</p>
+          <ul class="liste">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Sens, motivation, satisfaction, bien-être — toutes les problématiques liées à la scolarité</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Orientation et projet professionnel</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Méthodologie, rédaction et préparation de soutenance</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 — Adultes -->
+  <section class="accomp-row tint">
+    <div class="wrap">
+      <div class="accomp-row-in rev fu">
+        <div class="accomp-visual">
+          <div class="accomp-arch">
+            <!-- Pictogramme : Une simple mallette (sans personnage) -->
+            <svg viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="4" y="9" width="16" height="10" rx="2" />
+              <path d="M9 9V7a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2" />
+              <line x1="12" y1="12" x2="12" y2="16" />
+            </svg>
+          </div>
+        </div>
+        <div class="accomp-content">
+          <span class="accomp-num">02 — Adultes</span>
+          <h3 class="accomp-title-card">Parcours professionnel</h3>
+          <p class="accomp-sub">Domaines de consultation</p>
+          <ul class="liste cols-2">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Sens du&nbsp;/ au travail</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Souffrance au travail — stress, burn-out, conflits, harcèlement, risques psychosociaux, QVT…</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Anticipation et gestion des crises professionnelles</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Changement professionnel et transitions</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Carrières atypiques</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg>Compétences et projet professionnel</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-accompagnements -->
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 3 · CONTACT
+══════════════════════════════════════════════════ -->
+<div class="page" id="page-contact">
+
+  <header class="wrap page-header fu">
+    <span class="eyebrow center">
+      <svg class="sunicon" viewBox="0 0 20 20" fill="none" stroke="#D4714A" stroke-width="1.8"><line x1="10" y1="2" x2="10" y2="7"/><line x1="4.5" y1="4.5" x2="7.5" y2="8"/><line x1="15.5" y1="4.5" x2="12.5" y2="8"/><line x1="2" y1="11" x2="18" y2="11"/></svg>
+      Me contacter
+    </span>
+    <h2 class="page-h-title">Contact &amp; infos</h2>
+  </header>
+
+  <section class="contact-block">
+    <div class="wrap fu">
+
+      <div class="contact-visual">
+        <div class="contact-arch-bg"></div>
+        <svg class="contact-rays" viewBox="0 20 220 220" aria-hidden="true">
+          <!-- Le centre du soleil (base) est positionné en bas du cercle -->
+          <g transform="translate(110,150)" stroke="#D4714A" stroke-linecap="round" fill="none">
+            <!-- Trait d'horizon (plus épais) -->
+            <line x1="-65" y1="0" x2="65" y2="0" stroke-width="5" stroke-linecap="butt" />
+            
+            <!-- Rayons du soleil (7 rayons identiques au logo) -->
+            <g stroke-width="3.2">
+              <line x1="0" y1="0" x2="0" y2="-62" />
+              <line x1="0" y1="0" x2="0" y2="-62" transform="rotate(22.5)" />
+              <line x1="0" y1="0" x2="0" y2="-62" transform="rotate(45)" />
+              <line x1="0" y1="0" x2="0" y2="-62" transform="rotate(67.5)" />
+              <line x1="0" y1="0" x2="0" y2="-62" transform="rotate(-22.5)" />
+              <line x1="0" y1="0" x2="0" y2="-62" transform="rotate(-45)" />
+              <line x1="0" y1="0" x2="0" y2="-62" transform="rotate(-67.5)" />
+            </g>
+          </g>
+        </svg>
+      </div>
+
+      <div class="contact-items">
+        <a href="mailto:othisicontact@gmail.com" class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+          </div>
+          <div><p class="ci-label">Par mail</p><p class="ci-value">othisicontact@gmail.com</p></div>
+        </a>
+
+        <a href="https://instagram.com/othisiconseil" target="_blank" rel="noopener" class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+          </div>
+          <div><p class="ci-label">Sur Instagram</p><p class="ci-value">@othisiconseil</p></div>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+</div><!-- /page-contact -->
+
+<!-- ── FOOTER ─────────────────────────────────────── -->
+<footer>
+  <span>© 2026 Othisi — Accompagnement des parcours scolaires et professionnels<br/>N°RPPS&nbsp;: 810110520151</span>
+  <span>Saint-Malo · France entière en visio</span>
+</footer>
+
+<script>
+  function triggerFU(page){
+    page.querySelectorAll('.fu').forEach((el,i)=>{
+      el.classList.remove('go');void el.offsetWidth;
+      el.style.animationDelay=(i*.08)+'s';
+      el.classList.add('go');
+    });
+  }
+  function showPage(name){
+    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+    const pg=document.getElementById('page-'+name);
+    pg.classList.add('active');
+    document.getElementById('nav-'+name).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    setTimeout(()=>triggerFU(pg),10);
+  }
+  triggerFU(document.querySelector('.page.active'));
+</script>
+</body>
+</html>
